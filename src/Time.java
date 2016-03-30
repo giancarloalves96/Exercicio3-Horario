@@ -1,4 +1,4 @@
-public class Time {
+public class Time{
 	int hour;
 	int minute;
 	
@@ -15,12 +15,16 @@ public class Time {
 		return this.minute;
 	}
 	
-	public void setHour(int hour){
-		this.hour=hour;
+	public void setHour(int hour) throws InvalidHourException{
+		if(hour>=0 && hour<24)
+			this.hour=hour;
+		else throw new InvalidHourException(hour, "0 to 23");
 	}
 	
-	public void setMinute(int minute){
-		this.minute=minute;
+	public void setMinute(int minute) throws InvalidMinuteException{
+		if(minute>=0 && minute<60)
+			this.minute=minute;
+		else throw new InvalidMinuteException(minute, "0 to 59");
 	}
 	
 	String getTime(){
@@ -35,8 +39,20 @@ public class Time {
 	
 	public static void main(String[] args) {
 		Time t = new Time();
-		t.setHour(3);
-		t.setMinute(25);
+		try{
+			t.setHour(23);	
+		}
+		catch(InvalidHourException ex){
+			System.out.println(ex.toString());
+			return;
+		}
+		try{
+			t.setMinute(59);	
+		}
+		catch(InvalidMinuteException ex){
+			System.out.println(ex.toString());
+			return;
+		}
 		System.out.println("The time now is "+t.getTime());
 	}
 }
